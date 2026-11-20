@@ -52,3 +52,9 @@ Run 2026-11-21 (WIB), clean-directory QA before GitHub push.
 ## Kit check + transcript bundle
 
 - NOTE FOR SUBMITTER (parent): run the kit pre-submit check (`makefun check`) and bundle the transcripts before submitting; the 5 at-submission checks (repo_public, repo_owner, repo_created_after_open, commit_in_repo, duplicate_snapshot) are the parent's job at GitHub push + submit time. Code in this package was authored through write/edit calls in the coordinator session (build_poster.py, main.py, README.md, TEST_RESULTS.md, LICENSE), per the transcript-gate rule; image.b64 is build output of build_poster.py, not code.
+
+## Entrypoint rewrite (kit check finding, 2026-11-21)
+
+- Kit check on the first package found `thinking_reproduces` FAIL: the original main.py had no authored line (16 of 17 lines first appeared when the build session read the 19 Nov entry's near-identical main.py).
+- Fix: main.py rewritten from scratch in a fresh session (no read of any earlier main.py, no copy), with a different structure (Indonesian helper functions, `jalankan()` + `sys.exit`). New main.py: 1,165 bytes, stdlib only.
+- Re-verification: `python3 main.py` run twice from the package directory; both runs wrote `/output/entry.png` with sha256 `3fccb35ffdc65c35f67b94e7d82413157c59e07e87b6440588cfe2c507c84877` — identical to the poster hash above. Determinism PASS.
